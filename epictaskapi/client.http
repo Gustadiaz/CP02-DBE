@@ -29,40 +29,40 @@ Authorization: Basic joao@fiap.com.br 123
 ###
 
 #Listar usuários
-GET http://localhost:8080/api/user
+GET http://localhost:8080/api/usuario
 
 ###
 
 #Detalhes do usuário
-GET http://localhost:8080/api/user/1
+GET http://localhost:8080/api/usuario/1
 
 ###
 
 #Apagar usuário
-DELETE http://localhost:8080/api/user/1
-Authorization: Basic Auth admin@fiap.com.br administrador
+DELETE http://localhost:8080/api/usuario/1
+Authorization: Basic Auth syminate@fiap.com.br syminate
 
 ###
 
 #Cadastrar Usuário
-POST http://localhost:8080/api/user
-Authorization: Basic Auth admin@fiap.com.br administrador
+POST http://localhost:8080/api/usuario
+Authorization: Basic Auth syminate@fiap.com.br syminate
 
 { 
-    "name": "João Carlos Lima",
-    "email": "joao@fiap.com.br",
-    "password" : "123"
+    "nome": "Felipe Oliveira",
+    "email": "felipe@fiap.com.br",
+    "senha" : "felipe1309"
 }
 
 ###
 
 #Alterar usuário
-PUT http://localhost:8080/api/user
-Authorization: Basic Auth admin@fiap.com.br administrador
+PUT http://localhost:8080/api/usuario
+Authorization: Basic Auth syminate@fiap.com.br syminate
 
 { 
-    "name": "Maria Pereira",
-    "email": "maria@fiap.com.br"
+    "nome": "Gustavo Diaz",
+    "email": "gustavo@fiap.com.br"
 }
 
 ###

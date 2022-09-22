@@ -1,5 +1,10 @@
 package br.com.fiap.epictaskapi.service;
 
+
+
+import br.com.fiap.epictaskapi.dto.UsuarioDtoNoPassword;
+import br.com.fiap.epictaskapi.model.Usuario;
+import br.com.fiap.epictaskapi.repository.UsuarioRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -9,9 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import br.com.fiap.epictaskapi.dto.UsuarioDtoNoPassword;
-import br.com.fiap.epictaskapi.model.Usuario;
-import br.com.fiap.epictaskapi.repository.UsuarioRepository;
+
 
 @Service
 public class UsuarioService {
@@ -23,6 +26,9 @@ public class UsuarioService {
         return usuarioRepository.findAll(pagina);
     }
 
+    public Optional<Usuario> getById(Long id) {
+        return usuarioRepository.findById(id);
+    }
 
     public void save(Usuario usuario) {
         usuarioRepository.save(usuario);
@@ -32,24 +38,20 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
-    public Optional<Usuario> getById(Long id) {
-        return usuarioRepository.findById(id);
-    }
-
-    public List<UsuarioDtoNoPassword> listDtoUser(Long id) {
-        return usuarioRepository.findById(id)
-                                .stream()
-                                .map(this::convertDto)
-                                .collect(Collectors.toList());
-    }
-
     private UsuarioDtoNoPassword convertDto(Usuario usuario) {
         UsuarioDtoNoPassword dto = new UsuarioDtoNoPassword();
         dto.setId(usuario.getId());
         dto.setNome(usuario.getNome());
         dto.setEmail(usuario.getEmail());
-
+        
         return dto;
+    }
+
+    public List<UsuarioDtoNoPassword> listDtoUsuario(Long id) {
+        return usuarioRepository.findById(id)
+                                .stream()
+                                .map(this::convertDto)
+                                .collect(Collectors.toList());
     }
 
 }

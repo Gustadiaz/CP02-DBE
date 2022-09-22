@@ -4,27 +4,30 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import br.com.fiap.epictaskapi.dto.UsuarioDtoNoPassword;
+import br.com.fiap.epictaskapi.model.Usuario;
+import br.com.fiap.epictaskapi.service.UsuarioService;
+
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.data.web.PageableDefault;
 
-import br.com.fiap.epictaskapi.dto.UsuarioDtoNoPassword;
-import br.com.fiap.epictaskapi.model.Usuario;
-import br.com.fiap.epictaskapi.service.UsuarioService;
+
+
 
 @RestController
 @RequestMapping("/api/user")
@@ -49,6 +52,16 @@ public class UsuarioController {
     }
 
    
+    @GetMapping("{id}")
+    @PreAuthorize("permitAll()")    
+    public ResponseEntity<List<UsuarioDtoNoPassword>> show(@PathVariable Long id){
+        var lista = service.listDtoUsuario(id);
+        if(lista.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok().body(lista);
+    }
+
     @GetMapping
     @PreAuthorize("permitAll()")
     public Page<UsuarioDtoNoPassword> index(@PageableDefault(size = 5) Pageable paginacao){
@@ -56,17 +69,6 @@ public class UsuarioController {
         Page<UsuarioDtoNoPassword> dto = usuario.map( d -> new UsuarioDtoNoPassword(d));
 
         return dto;
-    }
-
-    
-    @GetMapping("{id}")
-    @PreAuthorize("permitAll()")    
-    public ResponseEntity<List<UsuarioDtoNoPassword>> show(@PathVariable Long id){
-        var lista = service.listDtoUser(id);
-        if(lista.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        return ResponseEntity.ok().body(lista);
     }
 
    
